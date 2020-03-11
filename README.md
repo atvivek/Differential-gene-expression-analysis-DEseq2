@@ -1,13 +1,13 @@
 # Differential-gene-expression-analysis-DEseq2
 
-###*Installation Requirements*
+### *Installation Requirements*
 
-    Download the most recent versions of R and RStudio for your laptop:
+1.Download the most recent versions of R and RStudio for your laptop:
 
     R
     RStudio
 
-    Install the following packages using the instructions provided below.
+2.Install the following packages using the instructions provided below.
 
     NOTE:  When installing the following packages, if you are asked to select (a/s/n) or (y/n), please select “a” or "y" as applicable but know that it can take awhile.
 
@@ -28,8 +28,8 @@ Packages to install from CRAN (note that these package names are case sensitive!
 
 (b) Install the below packages from Bioconductor, using BiocManager::install() function 7 times for the 7 packages:
 
-BiocManager::install("insert_first_package_name_in_quotations")
-BiocManager::install("insert_second_package_name_in_quotations") 
+    BiocManager::install("insert_first_package_name_in_quotations")
+    BiocManager::install("insert_second_package_name_in_quotations") 
 
 Packages to install from Bioconductor (note that these package names are case sensitive!):
 
@@ -43,23 +43,23 @@ Packages to install from Bioconductor (note that these package names are case se
     AnnotationHub
     ensembldb
 
-    Finally, please check that all the packages were installed successfully by loading them one at a time using the library() function.
+   Finally, please check that all the packages were installed successfully by loading them one at a time using the library() function.
 
-library(DESeq2)
-library(ggplot2)
-library(RColorBrewer)
-library(pheatmap)
-library(ggrepel)
-library(clusterProfiler)
-library(DEGreport)
-library(org.Hs.eg.db)
-library(DOSE)
-library(pathview)
-library(tidyverse)
-library(EnsDb.Hsapiens.v86)
-library(AnnotationHub)
-library(ensembldb)
+    library(DESeq2)
+    library(ggplot2)
+    library(RColorBrewer)
+    library(pheatmap)
+    library(ggrepel)
+    library(clusterProfiler)
+    library(DEGreport)
+    library(org.Hs.eg.db)
+    library(DOSE)
+    library(pathview)
+    library(tidyverse)
+    library(EnsDb.Hsapiens.v86)
+    library(AnnotationHub)
+    library(ensembldb)
 
-    Once all packages have been loaded, run sessionInfo().
+Once all packages have been loaded, run sessionInfo().
 
-sessionInfo()
+    sessionInfo()
