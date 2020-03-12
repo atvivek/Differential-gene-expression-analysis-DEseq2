@@ -303,16 +303,17 @@ Enter the following
 
 Type the following 
 
-	con1 <con_Rep1/transcripts.gtf.gtf>
-	con2 <con_Rep2/transcripts.gtf.gtf>
-	con3 <con_Rep3/transcripts.gtf.gtf>
-	inf1 <inf_Rep1/transcripts.gtf.gtf>
-	inf2 <inf_Rep2/transcripts.gtf.gtf>
-	inf3 <inf_Rep3/transcripts.gtf>
+	con1 con_Rep1/transcripts.gtf
+	con2 cn_Rep2/transcripts.gtf
+	con3 con_Rep3/transcripts.gtf
+	inf1 inf_Rep1/transcripts.gtf
+	inf2 inf_Rep2/transcripts.gtf
+	inf3 inf_Rep3/transcripts.gtf
+Press esc button and type 
 	
 	:wq
 
-With this the information typed is saved.
+With this the content is      
 
 Now,
 
