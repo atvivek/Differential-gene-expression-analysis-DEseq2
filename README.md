@@ -121,6 +121,19 @@ command
 -q: query input files in fastq format
 -S: output SAM file
 
+
+Output
+
+	  11863788 reads; of these:
+	  11863788 (100.00%) were unpaired; of these:
+	    257860 (2.17%) aligned 0 times
+	    11364764 (95.79%) aligned exactly 1 time
+	    241164 (2.03%) aligned >1 times
+	97.83% overall alignment rate
+	
+
+
+
     Usage:   samtools  [options]
 
     Commands:
@@ -251,26 +264,38 @@ listOfSampleGTFs.txt : This is a text file with list of gtfs generated freom the
     
 The command above is to generate listOfSampleGTFs.txt that will be used in stringtie --merge command. The merged GTF can be compared with Reference GTF to get some stats on the stringtie_merged.gtf. The above set of commands can be put together as shown below,
 
-	stringtie -p 8 -l con_Rep1 -G ath10.gtf -o con_Rep1/transcripts.gtf con_Rep1_sort.bam
-        stringtie -p 8 -l inf_Rep1 -G ath10.gtf -o inf_Rep1/transcripts.gtf inf_Rep1_sort.bam
-        stringtie -p 8 -l con_Rep2 -G ath10.gtf -o con_Rep2/transcripts.gtf con_Rep2_sort.bam
-	stringtie -p 8 -l inf_Rep2 -G ath10.gtf -o inf_Rep2/transcripts.gtf inf_Rep2_sort.bam
-	stringtie -p 8 -l con_Rep3 -G ath10.gtf -o con_Rep3/transcripts.gtf con_Rep3_sort.bam
-	stringtie -p 8 -l inf_Rep3 -G ath10.gtf -o inf_Rep3/transcripts.gtf inf_Rep2_sort.bam
+	stringtie -p 8 -l con_Rep1 -G ath10.gtf -o con_Rep1/transcripts.gtf con_Rep1/con_Rep1_sort.bam
+        stringtie -p 8 -l inf_Rep1 -G ath10.gtf -o inf_Rep1/transcripts.gtf inf_Rep1/inf_Rep1_sort.bam
+        stringtie -p 8 -l con_Rep2 -G ath10.gtf -o con_Rep2/transcripts.gtf con_Rep2/con_Rep2_sort.bam
+	stringtie -p 8 -l inf_Rep2 -G ath10.gtf -o inf_Rep2/transcripts.gtf inf_Rep2/inf_Rep2_sort.bam
+	stringtie -p 8 -l con_Rep3 -G ath10.gtf -o con_Rep3/transcripts.gtf con_Rep3/con_Rep3_sort.bam
+	stringtie -p 8 -l inf_Rep3 -G ath10.gtf -o inf_Rep3/transcripts.gtf inf_Rep3/inf_Rep3_sort.bam
 	
 	ls -1 *.gtf | grep transcripts >> sample_assembly_gtf_list.txt
 	
 	stringtie --merge -p 8 -o stringtie_merged.gtf -G ath10.gtf sample_assembly_gtf_list.txt
 	
-	gffcompare -r ath10.gtf -o gffcompare stringtie_merged.gtf
+	gffccon_Rep2.19236.1ompare -r ath10.gtf -o gffcompare stringtie_merged.gtf
+	
+	 mkdir merged_gtf
+         mv gff* merged_gtf/
 
+
+	stringtie -p 8 -l con_Rep1 -G stringtie_merged.gtf -o con_Rep1/con_Rep1.gtf con_Rep1/con_Rep1_sort.bam
+        stringtie -p 8 -l inf_Rep1 -G stringtie_merged.gtf -o inf_Rep1/inf_Rep1.gtf inf_Rep1/inf_Rep1_sort.bam
+        stringtie -p 8 -l con_Rep2 -G stringtie_merged.gtf -o con_Rep2/con_Rep2.gtf con_Rep2/con_Rep2_sort.bam
+	stringtie -p 8 -l inf_Rep2 -G stringtie_merged.gtf -o inf_Rep2/inf_Rep2.gtf inf_Rep2/inf_Rep2_sort.bam
+	stringtie -p 8 -l con_Rep3 -G stringtie_merged.gtf -o con_Rep3/con_Rep3.gtf con_Rep3/con_Rep3_sort.bam
+	stringtie -p 8 -l inf_Rep3 -G stringtie_merged.gtf -o inf_Rep3/inf_Rep3.gtf inf_Rep3/inf_Rep3_sort.bam
+	
+	
 Now lets examine the outputs generated from above comands. As discussed above in first step stringtie genrates a gtf file for each sample with details of coverage, FPKM, TPM and other information on the transcripts based on sample bam file.
 	
 
 Now lets have a look at out merged GTF file stringtie_merged.gtf from the previous step:
 
 
-This is our new reference GTF file we will be using to quantify the expression of dfferent genes and transcripts. If we look closer we can see that the file have information different features but exclude coverage, TPM and FPKM information. Thats how we want it to be for use as reference in subsequent analysis. Also note that the first two transcripts have known ENSEMBL transcrip-id,gene_name and ref_gene_id, however it is missing in transcript 3. This is because it represents a novel transcript identified in the study.
+This is our new reference GTF file we will be using to quantify the expression of dfferent genes and transcripts. If we look closer wcon_Rep2.19236.1e can see that the file have information different features but exclude coverage, TPM and FPKM information. Thats how we want it to be for use as reference in subsequent analysis. Also note that the first two transcripts have known ENSEMBL transcrip-id,gene_name and ref_gene_id, however it is missing in transcript 3. This is because it represents a novel transcript identified in the study.
 
 Now lets go ahead and do the transcript quantification using stringtie.
 
@@ -288,12 +313,12 @@ Where:
 
 Type in the below based on the above command to run all our samples.
 
-	stringtie -e -B -p 4 con_Rep1/con_Rep1_sort.bam -G stringtie_merged.gtf -o con_Rep1/con_Rep1.count -A con_Rep1/con_Rep1_gene_abun.out
-	stringtie -e -B -p 4 inf_Rep1/con_Rep1_sort.bam -G stringtie_merged.gtf -o inf_Rep1/con_Rep1.count -A inf_Rep1/inf_Rep1_gene_abun.out
-	stringtie -e -B -p 4 con_Rep2/con_Rep2_sort.bam -G stringtie_merged.gtf -o con_Rep2/con_Rep2.count -A con_Rep2/con_Rep2_gene_abun.out
-	stringtie -e -B -p 4 inf_Rep2/con_Rep2_sort.bam -G stringtie_merged.gtf -o inf_Rep2/con_Rep2.count -A inf_Rep2/inf_Rep2_gene_abun.out
-      stringtie -e -B -p 4 con_Rep3/con_Rep3_sort.bam -G stringtie_merged.gtf -o con_Rep3/con_Rep3.count -A con_Rep3/con_Rep3_gene_abun.out
-	stringtie -e -B -p 4 inf_Rep3/con_Rep3_sort.bam -G stringtie_merged.gtf -o inf_Rep3/con_Rep3.count -A inf_Rep3/inf_Rep3_gene_abun.out
+	stringtie -e  -p 4 con_Rep1/con_Rep1_sort.bam -G stringtie_merged.gtf -o con_Rep1/con_Rep1.count -A con_Rep1/con_Rep1_gene_abun.out
+	stringtie -e  -p 4 inf_Rep1/con_Rep1_sort.bam -G stringtie_merged.gtf -o inf_Rep1/con_Rep1.count -A inf_Rep1/inf_Rep1_gene_abun.out
+	stringtie -e  -p 4 con_Rep2/con_Rep2_sort.bam -G stringtie_merged.gtf -o con_Rep2/con_Rep2.count -A con_Rep2/con_Rep2_gene_abun.out
+	stringtie -e  -p 4 inf_Rep2/con_Rep2_sort.bam -G stringtie_merged.gtf -o inf_Rep2/con_Rep2.count -A inf_Rep2/inf_Rep2_gene_abun.out
+      stringtie -e  -p 4 con_Rep3/con_Rep3_sort.bam -G stringtie_merged.gtf -o con_Rep3/con_Rep3.count -A con_Rep3/con_Rep3_gene_abun.out
+	stringtie -e  -p 4 inf_Rep3/con_Rep3_sort.bam -G stringtie_merged.gtf -o inf_Rep3/con_Rep3.count -A inf_Rep3/inf_Rep3_gene_abun.out
 
 DESeq2 and edgeR are two popular Bioconductor packages for analyzing differential expression, which take as input a matrix of read counts mapped to particular genomic features (e.g., genes). We provide a Python script (prepDE.py) to extract this read count information directly from the files generated by StringTie (run with the -e parameter).
 
@@ -304,7 +329,7 @@ Enter the following
 Type the following 
 
 	con1 con_Rep1/transcripts.gtf
-	con2 cn_Rep2/transcripts.gtf
+	con2 con_Rep2/transcripts.gtf
 	con3 con_Rep3/transcripts.gtf
 	inf1 inf_Rep1/transcripts.gtf
 	inf2 inf_Rep2/transcripts.gtf
@@ -313,7 +338,7 @@ Press esc button and type
 	
 	:wq
 
-With this the content is      
+With this the content typed above is saved.      
 
 Now,
 
@@ -321,10 +346,13 @@ Now,
 	
 The script will produce two result files: gene_count_matrix.csv and transcript_count_matrix.csv.These are the input files for the differential expression analysis or the principal component analysis (PCA).
 
-### *Installation Requirements*
+
+### Differential Expression Analysis with DESeq2 
+
+ *Installation Requirements*
 
 1.Download the most recent versions of R and RStudio for your laptop:
-fastqc
+  
     R
     RStudio
 
@@ -334,9 +362,9 @@ fastqc
 
 (a) Install the below packages on your laptop from CRAN. You DO NOT have to go to the CRAN webpage; you can use the following function to install them one by one:
 
-install.packages("insert_first_package_name_in_quotations")
-install.packages("insert__second_package_name_in_quotations")
-& so on ...
+	install.packagescon_Rep2.19236.1("insert_first_package_name_in_quotations")
+	install.packages("insert__second_package_name_in_quotations")
+	& so on ...
 
 Packages to install from CRAN (note that these package names are case sensitive!):
 
@@ -402,9 +430,8 @@ The most important information comes out as -replaceoutliers-results.csv. This f
 	countdata <- as.matrix(countdata)
 	head(countdata)
 
-	# Assign condition (first two are WT, second two contain ABA, third two contain BAP, 
-	#fourth two contain GAA, fifth two contain  IAA, sixth two contain S24)
-	(condition <- factor(c(rep("WT", 2), rep("ABA", 2),rep("GAA", 2),rep("IAA", 2),rep("S24", 2),rep("BAP",2))))
+	# Assign condition (first three are con and next three contain inf)
+	(condition <- factor(c(rep("con", 3), rep("inf", 3))))
 
 	# Analysis with DESeq2 ----------------------------------------------------
 
@@ -547,5 +574,3 @@ The most important information comes out as -replaceoutliers-results.csv. This f
 	head(rescoldata)
 	## Write results
 	write.csv(rescoldata, file="collapsed_diffexpr-results.csv")
-
-
