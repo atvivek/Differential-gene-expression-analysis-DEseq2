@@ -281,12 +281,12 @@ The command above is to generate listOfSampleGTFs.txt that will be used in strin
          mv gff* merged_gtf/
 
 
-	stringtie -p 8 -l con_Rep1 -G stringtie_merged.gtf -o con_Rep1/con_Rep1.gtf con_Rep1/con_Rep1_sort.bam
-        stringtie -p 8 -l inf_Rep1 -G stringtie_merged.gtf -o inf_Rep1/inf_Rep1.gtf inf_Rep1/inf_Rep1_sort.bam
-        stringtie -p 8 -l con_Rep2 -G stringtie_merged.gtf -o con_Rep2/con_Rep2.gtf con_Rep2/con_Rep2_sort.bam
-	stringtie -p 8 -l inf_Rep2 -G stringtie_merged.gtf -o inf_Rep2/inf_Rep2.gtf inf_Rep2/inf_Rep2_sort.bam
-	stringtie -p 8 -l con_Rep3 -G stringtie_merged.gtf -o con_Rep3/con_Rep3.gtf con_Rep3/con_Rep3_sort.bam
-	stringtie -p 8 -l inf_Rep3 -G stringtie_merged.gtf -o inf_Rep3/inf_Rep3.gtf inf_Rep3/inf_Rep3_sort.bam
+	stringtie -e -p 8 -l con_Rep1 -G stringtie_merged.gtf -o con_Rep1/con_Rep1.gtf con_Rep1/con_Rep1_sort.bam
+        stringtie -e -p 8 -l inf_Rep1 -G stringtie_merged.gtf -o inf_Rep1/inf_Rep1.gtf inf_Rep1/inf_Rep1_sort.bam
+        stringtie -e -p 8 -l con_Rep2 -G stringtie_merged.gtf -o con_Rep2/con_Rep2.gtf con_Rep2/con_Rep2_sort.bam
+	stringtie -e -p 8 -l inf_Rep2 -G stringtie_merged.gtf -o inf_Rep2/inf_Rep2.gtf inf_Rep2/inf_Rep2_sort.bam
+	stringtie -e -p 8 -l con_Rep3 -G stringtie_merged.gtf -o con_Rep3/con_Rep3.gtf con_Rep3/con_Rep3_sort.bam
+	stringtie -e -p 8 -l inf_Rep3 -G stringtie_merged.gtf -o inf_Rep3/inf_Rep3.gtf inf_Rep3/inf_Rep3_sort.bam
 	
 	
 Now lets examine the outputs generated from above comands. As discussed above in first step stringtie genrates a gtf file for each sample with details of coverage, FPKM, TPM and other information on the transcripts based on sample bam file.
